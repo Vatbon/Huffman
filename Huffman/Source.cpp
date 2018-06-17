@@ -1,4 +1,4 @@
-/* Кодировщик алгоритмом Хаффмана */
+/* ГЉГ®Г¤ГЁГ°Г®ГўГ№ГЁГЄ Г Г«ГЈГ®Г°ГЁГІГ¬Г®Г¬ Г•Г ГґГґГ¬Г Г­Г  */
 
 #include <stdlib.h> 
 #include <stdio.h> 
@@ -7,12 +7,12 @@
 #define POS_INPUTFILE 2 
 #define POS_OUTPUTFILE 3 
 #define POS_MANUAL 1
-#define BUFFSIZE 32767 /* Должен быть больше 10240 */
+#define BUFFSIZE 32767 /* Г„Г®Г«Г¦ГҐГ­ ГЎГ»ГІГј ГЎГ®Г«ГјГёГҐ 10240 */
 #define WAY_SIZE 2048
 #define ARG_ENCODE "-e"
 #define ARG_DECODE "-d"
 #define ARG_MANUAL "man"
-#define MANUAL "\n------------------------------------------------------\n Huffman.exe [-e/-d] [pathname1] [pathname2]\n\n	1. -e - This switch will pack [pathname1] into [pathname2].\n\n	2. -d - This switch will pack [pathname1] into [pathname2].\n\n	3. [pathname1] - This path is to a file ,which will be packed or unpacked.\n\n	4. [pathname2] - This path is to a file ,in which [pathname1] will be packed or unpacked.\n------------------------------------------------------\n"
+#define MANUAL "\n------------------------------------------------------\n Huffman.exe [-e/-d] [pathname1] [pathname2]\n\n	1. -e - This switch will pack [pathname1] into [pathname2].\n\n	2. -d - This switch will unpack [pathname1] into [pathname2].\n\n	3. [pathname1] - This path is to a file ,which will be packed or unpacked.\n\n	4. [pathname2] - This path is to a file ,in which [pathname1] will be packed or unpacked.\n------------------------------------------------------\n"
 
 struct huff_node {
 	unsigned char data;
@@ -200,7 +200,7 @@ int Huffman_encode(FILE* InputFile, FILE* OutputFile) {
 	{
 		q++;
 	}
-	/* Запись служебной информации */
+	/* Г‡Г ГЇГЁГ±Гј Г±Г«ГіГ¦ГҐГЎГ­Г®Г© ГЁГ­ГґГ®Г°Г¬Г Г¶ГЁГЁ */
 	if (size) {
 		fwrite(&size, sizeof(unsigned long int), 1, OutputFile);
 		fwrite(&tcount, sizeof(short int), 1, OutputFile);
@@ -210,7 +210,7 @@ int Huffman_encode(FILE* InputFile, FILE* OutputFile) {
 	}
 
 	/*------------------------------------------------------------*/
-	/* Запись в Файл */
+	/* Г‡Г ГЇГЁГ±Гј Гў Г”Г Г©Г« */
 
 	fseek(InputFile, 0, SEEK_SET);
 	unsigned char inputchar[BUFFSIZE];
@@ -253,7 +253,7 @@ int Huffman_encode(FILE* InputFile, FILE* OutputFile) {
 		fwrite(outputchar, sizeof(char), 1, OutputFile);
 	}
 
-	/* конец записи в файл*/
+	/* ГЄГ®Г­ГҐГ¶ Г§Г ГЇГЁГ±ГЁ Гў ГґГ Г©Г«*/
 	/*------------------------------------------------------------*/
 	return 0;
 }
@@ -321,7 +321,7 @@ int Huffman_decode(FILE* InputFile, FILE* OutputFile) {
 	fseek(InputFile, 0, SEEK_SET);
 	fread(&size, sizeof(unsigned long int), 1, InputFile);
 
-	/* Если файл пустой */
+	/* Г…Г±Г«ГЁ ГґГ Г©Г« ГЇГіГ±ГІГ®Г© */
 	if (size == 0)
 	{
 		return 0;
@@ -331,7 +331,7 @@ int Huffman_decode(FILE* InputFile, FILE* OutputFile) {
 	fread(alph, sizeof(char), count, InputFile);
 	fread(&way_size, sizeof(int), 1, InputFile);
 
-	/* Если в алфавите только один символ */
+	/* Г…Г±Г«ГЁ Гў Г Г«ГґГ ГўГЁГІГҐ ГІГ®Г«ГјГЄГ® Г®Г¤ГЁГ­ Г±ГЁГ¬ГўГ®Г« */
 	if (count == 1) {
 		for (unsigned long int w = 0; w < size; w++)
 			fputc(alph[0], OutputFile);
